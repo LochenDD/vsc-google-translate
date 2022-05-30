@@ -12,7 +12,7 @@
         "Japanese",
         "Korean"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "repository": "https://github.com/LochenDD/vsc-google-translate",
     "engines": {
         "vscode": "^1.30.0"

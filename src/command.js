@@ -86,7 +86,7 @@ function toLowerCamelCase(word) {
 
 function toHyphenDelimiters(word) {
     const words = word.split(' ')
-    if(words.length <= 1) return
+    if(words.length <= 1) return null
     let newWords = ''
     for (let i = 0; i < words.length; i++) {
         const item = words[i];
@@ -329,9 +329,9 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
                 word = trans.word;
                 candidate = trans.candidate
                 const lowerCamelCaseCandidate = candidate.map(cur => toLowerCamelCase(cur))
-                const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur))
+                const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur)).filter(cur => cur !== null)
                 const upperCamelCaseCandidate = candidate.map(cur => toUpperCamelCase(cur))
-                if (hyphenDelimitersCandidate[0] === undefined) {
+                if (hyphenDelimitersCandidate.length === 0) {
                     candidate = [...lowerCamelCaseCandidate, ...upperCamelCaseCandidate]
                 } else {
                     candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate]
@@ -350,10 +350,6 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
             candidate.forEach(c => items.push({ label: c }))
             const chosen = await vscode.window.showQuickPick(items);
             if(chosen) {
-                // vscode.env.clipboard.writeText(currentWord.word);
-                // vscode.window.showInformationMessage(locale["clipboard.message"]);
-                // barItem.word.text = `${currentWord.text}: ${currentWord.word}`;
-                // barItem.candidate.show()
                 editor.edit(editBuilder => {
                     editBuilder.replace(selection, chosen.label);
                 })

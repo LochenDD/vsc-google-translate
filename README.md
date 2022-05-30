@@ -1,10 +1,8 @@
-[English Readme](README.md) / 简体中文说明 / [繁體中文說明](README.zh-tw.md)
+简体中文说明
 
-# Google Translate Extension
+# Translate Extension
 
-基于 [Google 翻译(cn)](https://translate.google.cn)，无需科学上网，无需 API Key 的翻译扩展。
-
-❤ [Sponsor me](https://www.paypal.me/imlinhanchao) / [赞助开发者](http://sponsor.hancel.org/)
+翻译扩展。
 
 ## Features
 
@@ -27,6 +25,8 @@
 > Tips: 快捷键修改可以到 VSCode 的键盘快捷方式 ( `Ctrl + K Ctrl + S` ) 修改。
 
 ## Release Notes
+### 1.0.1
+1. 修复翻译并替换有时会报错。
 ### 1.0.0
 1. 在插件 `Google Translate`的基础上 修改了替换功能, 增加替换候选项并修改了默认快捷键。
 ## For more information
