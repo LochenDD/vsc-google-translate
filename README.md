@@ -1,119 +1,39 @@
-English Readme / [简体中文说明](README.zh-cn.md) / [繁體中文說明](README.zh-tw.md)
+[English Readme](README.md) / 简体中文说明 / [繁體中文說明](README.zh-tw.md)
 
 # Google Translate Extension
 
-Based on [Google Translate](https://translate.google.cn). No API Key translation extension required.
+基于 [Google 翻译(cn)](https://translate.google.cn)，无需科学上网，无需 API Key 的翻译扩展。
 
 ❤ [Sponsor me](https://www.paypal.me/imlinhanchao) / [赞助开发者](http://sponsor.hancel.org/)
 
 ## Features
 
-1. Language translation `Ctrl + Shift + T`.  
-   ![Language translation](./asserts/translates.gif)
-2. Translate and copy results to clipboard `Alt + T`.  
-   ![Translate and copy results to clipboard](./asserts/clipboard.gif)
-3. Expand the translation result candidate word selection box `Shift + Alt + T`.  
-   ![Expand the translation result candidate word selection box](./asserts/candidate.gif)   
-4. Translate and replace `Ctrl + Alt + T`.  
-   ![Translate and replace](./asserts/replace.gif)
-5. Hover to translate selected text.  
-   ![Hover to translate](./asserts/hover.gif)
-6. The target language of translation can be set through the setting.
-   ![setting](./asserts/setting.jpg)
-7. Temporarily switch to which language to translate to until you close the workspace or modify the configuration. `google-translate.switch`
-   
-> Tips: Shortcuts can be modified by going to VSCode's Keyboard Shortcuts (`Ctrl + K Ctrl + S`)
+包含以下功能：
+
+1. 自动语言互译 `Ctrl + Shift + Y` macOs: `Cmd + Shift + Y`；  
+   ![自动中英互译](./asserts/translates.gif)
+2. 翻译并复制结果到剪贴板 `Alt + T` macOs: `Option + T`；  
+   ![翻译并复制结果到剪贴板](./asserts/clipboard.gif)
+3. 展开候选词选择 `Shift + Alt + T` macOs: `Shift + Option + T`；  
+   ![展开候选词选择](./asserts/candidate.gif)   
+4. 翻译并替换 `Ctrl + Shift + X` macOs: `Cmd + Shift + X`；  
+   ![翻译并替换](./asserts/replace.gif)
+5. 悬停翻译选中文字；  
+   ![悬停翻译选中文字](./asserts/hover.gif)
+6. 设置界面，可设置翻译的目标语言
+   ![设置界面](./asserts/setting.jpg)
+7. 暂时切换到其他翻译语言，直到关闭工作空间或修改配置。 `google-translate.switch`
+  
+> Tips: 快捷键修改可以到 VSCode 的键盘快捷方式 ( `Ctrl + K Ctrl + S` ) 修改。
 
 ## Release Notes
-
-### 1.2.6
-1. Fix the incompatibility issue of the wrong source translate language that has been set. 
-
-### 1.2.5
-1. Added a Quick pick box to selected translate language.
-
-### 1.2.4
-1. Update translate module use to `@imlinhanchao/google-translate-api`.
-
-### 1.2.3
-1. Update the clipboard Use the vscode clipboard api.
-
-### 1.2.2
-1. Added option to reduce the message box.
-
-### 1.2.1
-1. Update switch target change language to save in setting.
-2. Added detect language setting command.
-3. Added swap first and second language command.
-4. Added target language and detect language setting status bar.
-
-### 1.1.6
-1. Add replace translation and hover translation support multi-selection feature.
-
-### 1.1.5
-1. Fixed launch extension home page failed at MacOS and Linux.
-
-### 1.1.4
-1. Add a setting item `maxSizeOfResult` to set the maximum display characters for the translated content and results of the status bar and message box.
-
-### 1.1.3
-1. Fix issue that the translation result is empty when the first language is not Chinese.
-2. Add the function of temporarily switching the translation language.
-
-### 1.1.2
-1. Fix the operation and display problems of a large number of text translations.
-
-### 1.1.1
-1. Update extension description.
-
-### 1.1.0
-1. Added setting interface to configure target translation language, etc.
-2. Added function name translation feature.
-3. Prompts support multiple languages(i18n).
-4. Fix several known bugs.
-
-### 1.0.10
-1. Update request library to `got`, to avoid some compatibility issues.
-
-### 1.0.9
-1. Added internal error prompts for user feedback issues.
-
-### 1.0.8
-1. Remove Request and URLEncode dependencies, use native modules instead, and reduce package size.
-2. Added the option to automatically switch the target language based on the language of the editor. If the text in the current compiler language is selected, it will be automatically translated into English.
-
-### 1.0.7
-1. Update limited function trigger conditions to avoid conflicts with VSCode shortcuts.
-
-### 1.0.6
-1. Fixed the problem that only the translation result of the first sentence is displayed when translating a paragraph of text.
-
-### 1.0.5
-1. Added the function of displaying the translation result of the selected text when hovering.
-
-### 1.0.4
-1. Add the instruction to directly replace the selected text language translation.
-2. Update Copy to Clipboard and Candidate function, no need to perform after translation.
-
-### 1.0.3
-1. Add automatic translation into Chinese based on the selected text language.
-  
-### 1.0.2
-1. Add Linux notes.
-   
-### 1.0.1
-1. Add shortcut key description.
-
 ### 1.0.0
-1. Support Google Translate Chinese-English translation.
-
----
-
+1. 在插件 `Google Translate`的基础上 修改了替换功能, 增加替换候选项并修改了默认快捷键。
 ## For more information
 
 * [GitHub](https://github.com/imlinhanchao/vsc-google-translate)
 * [VSCode Market](https://marketplace.visualstudio.com/items?itemName=hancel.google-translate)
 * Icon made by [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) from www.flaticon.com 
-* Icon made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+* Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 **Enjoy!**

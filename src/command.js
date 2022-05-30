@@ -70,6 +70,49 @@ function initSetting(cxt) {
     //noticeComment();
 }
 
+function toLowerCamelCase(word) {
+    const words = word.split(' ')
+    let newWords = ''
+    for (let i = 0; i < words.length; i++) {
+        const item = words[i];
+        if (i === 0) {
+            newWords = item.toLowerCase()
+        }else {
+            newWords += `${item[0].toUpperCase()}${item.slice(1)}`
+        }
+    }
+    return newWords
+}
+
+function toHyphenDelimiters(word) {
+    const words = word.split(' ')
+    if(words.length <= 1) return
+    let newWords = ''
+    for (let i = 0; i < words.length; i++) {
+        const item = words[i];
+        if (i === 0) {
+            newWords = item.toLowerCase()
+        }else {
+            newWords += `-${item.toLowerCase()}`
+        }
+    }
+    return newWords
+}
+
+function toUpperCamelCase(word) {
+    const words = word.split(' ')
+    let newWords = ''
+    for (let i = 0; i < words.length; i++) {
+        const item = words[i];
+        if (i === 0) {
+            newWords = `${item[0].toUpperCase()}${item.toLowerCase().slice(1)}`
+        }else {
+            newWords += `${item[0].toUpperCase()}${item.slice(1)}`
+        }
+    }
+    return newWords
+}
+
 function getExecCommand() {
     let cmd = 'start';
     if (process.platform == 'win32') {
@@ -269,11 +312,12 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
     let length = editor.selections.length;
     let offsets = {};
     let text, word;
+    
     for (let i = 0; i < length; i++) {
+        let candidate = []
         let selection = editor.selections[i];
         text = editor.document.getText(selection);
         word = '';
-    
         try {
             if (currentWord.text == '' || currentWord.text != text) {
                 barItem.candidate.hide();
@@ -283,7 +327,15 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
                 if (!trans) return;
                 barItem.word.hide();
                 word = trans.word;
-                noticeComment();
+                candidate = trans.candidate
+                const lowerCamelCaseCandidate = candidate.map(cur => toLowerCamelCase(cur))
+                const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur))
+                const upperCamelCaseCandidate = candidate.map(cur => toUpperCamelCase(cur))
+                if (hyphenDelimitersCandidate[0] === undefined) {
+                    candidate = [...lowerCamelCaseCandidate, ...upperCamelCaseCandidate]
+                } else {
+                    candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate]
+                }
             } else {
                 word = currentWord.word;
             }
@@ -294,11 +346,18 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
             }
 
             offsets[selection.start.line] = (offsets[selection.start.line] || 0) + word.length - text.length;
-            
-            editor.edit(editBuilder => {
-                editBuilder.replace(selection, word);
-            })
-            
+            let items = [];
+            candidate.forEach(c => items.push({ label: c }))
+            const chosen = await vscode.window.showQuickPick(items);
+            if(chosen) {
+                // vscode.env.clipboard.writeText(currentWord.word);
+                // vscode.window.showInformationMessage(locale["clipboard.message"]);
+                // barItem.word.text = `${currentWord.text}: ${currentWord.word}`;
+                // barItem.candidate.show()
+                editor.edit(editBuilder => {
+                    editBuilder.replace(selection, chosen.label);
+                })
+            }
         } catch (error) {
             return showMessgae(error.message, true);
         }

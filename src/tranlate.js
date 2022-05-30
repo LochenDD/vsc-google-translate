@@ -41,6 +41,12 @@ module.exports = async (word, l, from='auto') => {
         from,
         to: l || config['google-translate.firstLanguage']
     };
+    if (/^[a-zA-Z]+$/.test(word)) {
+        lang.to = config['google-translate.firstLanguage']
+    }
+    if (/^[\u4e00-\u9fa5]+$/.test(word)) {
+        lang.to = config['google-translate.secondLanguage']
+    }
 
     if (config['google-translate.switchFunctionTranslation']) {
         word = word.replace(/([a-z])([A-Z])/g, "$1 $2")

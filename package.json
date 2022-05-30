@@ -1,8 +1,8 @@
 {
-    "name": "google-translate",
-    "publisher": "hancel",
-    "displayName": "Google Translate",
-    "description": "A extension uses to translate words between different language by google.",
+    "name": "chen-translate",
+    "publisher": "mrchen",
+    "displayName": "Translate",
+    "description": "抄的.",
     "keywords": [
         "Google",
         "Translate",
@@ -12,12 +12,12 @@
         "Japanese",
         "Korean"
     ],
-    "version": "1.2.6",
-    "repository": "https://github.com/imlinhanchao/vsc-google-translate",
+    "version": "1.0.0",
+    "repository": "https://github.com/LochenDD/vsc-google-translate",
     "engines": {
         "vscode": "^1.30.0"
     },
-    "icon": "asserts/icon.png",
+    "icon": "asserts/icon.jpg",
     "license": "MIT",
     "categories": [
         "Other"
@@ -83,8 +83,8 @@
         "keybindings": [
             {
                 "command": "translates.translates",
-                "key": "ctrl+shift+t",
-                "mac": "cmd+shift+t",
+                "key": "ctrl+shift+y",
+                "mac": "cmd+shift+y",
                 "when": "editorHasSelection"
             },
             {
@@ -95,8 +95,8 @@
             },
             {
                 "command": "translates.replace",
-                "key": "alt+ctrl+t",
-                "mac": "alt+cmd+t",
+                "key": "shift+ctrl+x",
+                "mac": "shift+cmd+x",
                 "when": "editorHasSelection"
             },
             {
@@ -161,6 +161,8 @@
     },
     "dependencies": {
         "@imlinhanchao/google-translate-api": "^8.0.1",
+        "global": "^4.4.0",
+        "vsce": "^2.8.0",
         "vscode-nls": "^4.1.1"
     }
 }
