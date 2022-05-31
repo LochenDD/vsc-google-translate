@@ -309,59 +309,61 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
     if (!editor) {
         return; // No open text editor
     }
-    let length = editor.selections.length;
+    // let length = editor.selections.length;
     let offsets = {};
-    let text, word;
+    let text;
+    // let word;
     
-    for (let i = 0; i < length; i++) {
-        let candidate = []
-        let selection = editor.selections[i];
-        text = editor.document.getText(selection);
-        word = '';
-        try {
-            if (currentWord.text == '' || currentWord.text != text) {
-                barItem.candidate.hide();
-                barItem.word.show();
-                barItem.word.text = `$(pulse) ${locale['wait.message']}...`;        
-                let trans = await translate(text, langTo, langFrom);
-                if (!trans) return;
-                barItem.word.hide();
-                word = trans.word;
-                candidate = trans.candidate
-                const lowerCamelCaseCandidate = candidate.map(cur => toLowerCamelCase(cur))
-                const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur)).filter(cur => cur !== null)
-                const upperCamelCaseCandidate = candidate.map(cur => toUpperCamelCase(cur))
-                if (hyphenDelimitersCandidate.length === 0) {
-                    candidate = [...lowerCamelCaseCandidate, ...upperCamelCaseCandidate]
-                } else {
-                    candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate]
-                }
+    // for (let i = 0; i < length; i++) {
+    let candidate = []
+    let selection = editor.selections[0];
+    text = editor.document.getText(selection);
+        // word = '';
+    try {
+        if (currentWord.text == '' || currentWord.text != text) {
+            barItem.candidate.hide();
+            barItem.word.show();
+            barItem.word.text = `$(pulse) ${locale['wait.message']}...`;        
+            let trans = await translate(text, langTo, langFrom);
+            if (!trans) return;
+            barItem.word.hide();
+            // word = trans.word;
+            candidate = trans.candidate
+            const lowerCamelCaseCandidate = candidate.map(cur => toLowerCamelCase(cur))
+            const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur)).filter(cur => cur !== null)
+            const upperCamelCaseCandidate = candidate.map(cur => toUpperCamelCase(cur))
+            if (hyphenDelimitersCandidate.length === 0) {
+                candidate = [...lowerCamelCaseCandidate, ...upperCamelCaseCandidate]
             } else {
-                word = currentWord.word;
+                candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate]
             }
+        } 
+        // else {
+        //     word = currentWord.word;
+        // }
 
-            if(offsets[selection.start.line]) {
-                selection.anchor._character += offsets[selection.start.line];
-                selection.active._character += offsets[selection.start.line];
-            }
-
-            offsets[selection.start.line] = (offsets[selection.start.line] || 0) + word.length - text.length;
-            let items = [];
-            candidate.forEach(c => items.push({ label: c }))
-            const chosen = await vscode.window.showQuickPick(items);
-            if(chosen) {
-                editor.edit(editBuilder => {
-                    editBuilder.replace(selection, chosen.label);
-                })
-            }
-        } catch (error) {
-            return showMessgae(error.message, true);
+        if(offsets[selection.start.line]) {
+            selection.anchor._character += offsets[selection.start.line];
+            selection.active._character += offsets[selection.start.line];
         }
-    }
 
-    if (length == 1) showMessgae(`${text.trim().slice(0, maxSize).trim()
-        + (text.length > maxSize ? '... ' : '')} => ${word.trim().slice(0, maxSize).trim() + (word.length > maxSize ? '... ' : '')}`);
-    else showMessgae(locale['replace.message'])
+        // offsets[selection.start.line] = (offsets[selection.start.line] || 0) + word.length - text.length;
+        let items = [];
+        candidate.forEach(c => items.push({ label: c }))
+        const chosen = await vscode.window.showQuickPick(items);
+        if(chosen) {
+            editor.edit(editBuilder => {
+                editBuilder.replace(selection, chosen.label);
+            })
+        }
+    } catch (error) {
+        return showMessgae(error.message, true);
+    }
+    // }
+
+    // if (length == 1) showMessgae(`${text.trim().slice(0, maxSize).trim()
+    //     + (text.length > maxSize ? '... ' : '')} => ${word.trim().slice(0, maxSize).trim() + (word.length > maxSize ? '... ' : '')}`);
+    // else showMessgae(locale['replace.message'])
 });
 
 let canDisposable = vscode.commands.registerCommand('translates.candidate', async function () {

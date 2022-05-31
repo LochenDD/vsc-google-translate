@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const translator = require('@imlinhanchao/google-translate-api');
+// const translator = require('@vitalets/google-translate-api');
 
 let config = {};
 
@@ -9,6 +10,7 @@ async function translate(text, lang) {
         let result = await translator(text, {
             from: lang.from == 'auto' ? undefined : lang.from,
             to: lang.to,
+            url: 'https://translate.google.cn'
         })
 
         return {
