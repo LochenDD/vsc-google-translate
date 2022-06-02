@@ -22,7 +22,7 @@ let barItem = {
     hover: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
     switchFrom: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
     switchHr: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
-    switchTo: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right),
+    switchTo: vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right)
 }
 
 let context = null;
@@ -127,6 +127,11 @@ function toConstant(word) {
     return newWords
 }
 
+function toSentence(text) {
+    if (text.toLowerCase() === text) return text
+    return text.replace(/[A-Z]/g, t => ` ${t.toLowerCase()}`)
+}
+
 function getExecCommand() {
     let cmd = 'start';
     if (process.platform == 'win32') {
@@ -213,13 +218,15 @@ let tranDisposable = vscode.commands.registerCommand('translates.translates', as
     let text = selectionText();
     if (text == '') return;
 
+    const queryText = toSentence(text).trim()
+
     barItem.word.show();
     barItem.word.text = `$(pulse) ${locale['wait.message']}...`;
 
     let word = `${locale['failed.message']}...`;
     let candidate = [];
     try {
-        let trans = await translate(text, langTo, langFrom);
+        let trans = await translate(queryText, langTo, langFrom);
         if (!trans) return;
         word = trans.word
         candidate = trans.candidate
@@ -235,8 +242,11 @@ let tranDisposable = vscode.commands.registerCommand('translates.translates', as
     if(word.length > maxSize) word = word.trim().slice(0, maxSize).trim() + '...'
     barItem.word.text = `${text.trim()}: ${word.trim()}`;
     barItem.word.command = 'translates.clipboard'
-    
-    showMessgae(`${text}: ${word}`);
+    if (/ /.test(word.trim())) {
+        showMessgae(`${text}: ${candidate.slice(0,3).join('；')}`);
+    } else {
+        showMessgae(`${text}: ${candidate.join('；')}`);
+    }
     
     candidate.length ? barItem.candidate.show() : barItem.candidate.hide();
     barItem.candidate.text = `$(ellipsis)`
