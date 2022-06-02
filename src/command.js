@@ -113,6 +113,20 @@ function toUpperCamelCase(word) {
     return newWords
 }
 
+function toConstant(word) {
+    const words = word.split(' ')
+    let newWords = ''
+    for (let i = 0; i < words.length; i++) {
+        const item = words[i];
+        if (i === 0) {
+            newWords += `${item.toUpperCase()}`
+        }else {
+            newWords += `_${item.toUpperCase()}`
+        }
+    }
+    return newWords
+}
+
 function getExecCommand() {
     let cmd = 'start';
     if (process.platform == 'win32') {
@@ -332,11 +346,8 @@ let replaceDisposable = vscode.commands.registerCommand('translates.replace', as
             const lowerCamelCaseCandidate = candidate.map(cur => toLowerCamelCase(cur))
             const hyphenDelimitersCandidate = candidate.map(cur => toHyphenDelimiters(cur)).filter(cur => cur !== null)
             const upperCamelCaseCandidate = candidate.map(cur => toUpperCamelCase(cur))
-            if (hyphenDelimitersCandidate.length === 0) {
-                candidate = [...lowerCamelCaseCandidate, ...upperCamelCaseCandidate]
-            } else {
-                candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate]
-            }
+            const constantCandidate = candidate.map(cur => toConstant(cur)).filter(i => i.indexOf('_') !== -1);
+            candidate = [...lowerCamelCaseCandidate, ...hyphenDelimitersCandidate, ...upperCamelCaseCandidate, ...constantCandidate]
         } 
         // else {
         //     word = currentWord.word;
